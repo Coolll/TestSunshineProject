@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>invidividual</groupId>
+    <artifactId>TestSunshineProject</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <start-class>com.myp.controllers.Application</start-class>
+    </properties>
+
+
+    <build>
+        <!--打包的插件-->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+
+        </plugins>
+
+        <!--最终的包名-->
+        <finalName>sunshine</finalName>
+    </build>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.3.RELEASE</version>
+    </parent>
+
+
+    <dependencies>
+
+    <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis mybatis依赖 -->
+    <dependency>
+        <groupId>org.mybatis</groupId>
+        <artifactId>mybatis</artifactId>
+        <version>3.4.6</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java mysql数据 -->
+    <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+        <version>8.0.13</version>
+    </dependency>
+
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-web</artifactId>
+        <exclusions>
+            <exclusion>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+            </exclusion>
+            <exclusion>
+                <artifactId>jul-to-slf4j</artifactId>
+                <groupId>org.slf4j</groupId>
+            </exclusion>
+
+        </exclusions>
+
+    </dependency>
+
+    <!--以下两个 local需要注释了-->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-tomcat</artifactId>
+        <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.tomcat</groupId>
+        <artifactId>tomcat-servlet-api</artifactId>
+        <version>8.0.36</version>
+        <scope>provided</scope>
+    </dependency>
+
+
+
+    <!-- https://mvnrepository.com/artifact/javax.mail/mail 邮件发送-->
+    <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>1.4.7</version>
+        <exclusions>
+            <exclusion>
+                <artifactId>activation</artifactId>
+                <groupId>javax.activation</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+    <dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>activation</artifactId>
+        <version>1.1.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.sourceforge.javacsv/javacsv  csv文件读写-->
+    <dependency>
+        <groupId>net.sourceforge.javacsv</groupId>
+        <artifactId>javacsv</artifactId>
+        <version>2.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/net.sf.json-lib/json-lib JSONObject解析-->
+    <dependency>
+        <groupId>net.sf.json-lib</groupId>
+        <artifactId>json-lib</artifactId>
+        <version>2.4</version>
+        <classifier>jdk15</classifier>
+
+
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk15on 用于微信数据解密 -->
+    <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk15on</artifactId>
+        <version>1.60</version>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec 用于微信数据解密 -->
+    <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.10</version>
+    </dependency>
+
+
+
+    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core log4j2 日志 -->
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.11.0</version>
+        <exclusions>
+            <exclusion>
+                <artifactId>log4j-api</artifactId>
+                <groupId>org.apache.logging.log4j</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.11.0</version>
+    </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/com.lmax/disruptor 异步日志 -->
+    <!--<dependency>-->
+    <!--<groupId>com.lmax</groupId>-->
+    <!--<artifactId>disruptor</artifactId>-->
+    <!--<version>3.4.2</version>-->
+    <!--</dependency>-->
+
+    <!--作用：导入本地的csv文件到数据库中-->
+    <dependency>
+        <groupId>com.opencsv</groupId>
+        <artifactId>opencsv</artifactId>
+        <version>4.4</version>
+        <exclusions>
+            <exclusion>
+                <artifactId>commons-beanutils</artifactId>
+                <groupId>commons-beanutils</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.aliyun.oss/aliyun-sdk-oss 阿里云存储-->
+    <dependency>
+        <groupId>com.aliyun.oss</groupId>
+        <artifactId>aliyun-sdk-oss</artifactId>
+        <version>2.8.1</version>
+        <exclusions>
+            <exclusion>
+                <artifactId>commons-codec</artifactId>
+                <groupId>commons-codec</groupId>
+            </exclusion>
+        </exclusions>
+    </dependency>
+
+
+    <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-core</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 密钥相关-->
+    <dependency>
+        <groupId>org.bouncycastle</groupId>
+        <artifactId>bcprov-jdk16</artifactId>
+        <version>1.46</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson json解析-->
+    <dependency>
+        <groupId>com.alibaba</groupId>
+        <artifactId>fastjson</artifactId>
+        <version>1.2.58</version>
+    </dependency>
+
+
+    <!-- https://mvnrepository.com/artifact/org.quartz-scheduler/quartz 定时任务-->
+    <dependency>
+        <groupId>org.quartz-scheduler</groupId>
+        <artifactId>quartz</artifactId>
+        <version>2.3.0</version>
+    </dependency>
+    <dependency>
+        <groupId>org.springframework</groupId>
+        <artifactId>spring-context-support</artifactId>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-dbcp2 dbcp数据源-->
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-dbcp2</artifactId>
+        <version>2.1.1</version>
+    </dependency>
+
+
+    </dependencies>
+
+</project>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration status="WARN">
+    <!-- OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+    <properties>
+        <Property name = "SERVER_LOG_DIR">/data/software/Sunshine/log</Property>
+        <Property name = "INFO_NAME">info</Property>
+        <Property name = "DEBUG_NAME">debug</Property>
+        <Property name = "ERROR_NAME">error</Property>
+        <Property name = "LOCAL_LOG_DIR">/Users/longpei/Desktop/TestSunshineProject/logs</Property>
+        <Property name="BASE_PATTERN">%d{yyyy-MM-dd HH:mm:ss} [%t] [%c] [%M]%m%n</Property>
+    </properties>
+
+    <!--先定义所有的appender-->
+    <appenders>
+        <!--这个输出控制台的配置-->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--这个都知道是输出日志的格式-->
+            <!--<PatternLayout pattern="%d{HH:mm:ss.SSS} %-5level %L %M - %msg%xEx%n"/>-->
+            <PatternLayout>
+                <Pattern>${BASE_PATTERN}</Pattern>
+                <charset>UTF-8</charset>
+            </PatternLayout>
+            <!--<PatternLayout charset="UTF-8" pattern="%d{yyyy-MM-dd HH:mm:ss} [%t] [%c] [%M]%m%n"/>-->
+        </Console>
+
+
+        <!--name：标识名，在Loggers中配置时需要用到-->
+        <!--fileName：当前日志文件的目录和名称-->
+        <!--filePattern：指定发生Rolling（滚动生成新的日志文件）时，文件的转移和重命名规则-->
+        <RollingRandomAccessFile name="InfoFile"
+                                 fileName="${LOCAL_LOG_DIR}/${INFO_NAME}.log"
+                                 filePattern="${LOCAL_LOG_DIR}/$${date:yyyy-MM}/${INFO_NAME}-%d{yyyy-MM-dd}-%i.log">
+
+            <PatternLayout>
+                <!--文件输出格式-->
+                <Pattern>${BASE_PATTERN}</Pattern>
+                <charset>UTF-8</charset>
+            </PatternLayout>
+
+            <!--filter 过滤规则-->
+            <Filters>
+                <!--level：日志级别 onMatch：符合日志级别的处理情况 onMismatch：不符合日志级别的处理情况-->
+                <!--ACCEPT：接受打印 DENY：不接受打印-->
+                <!--第一条语句：WARN及以上的级别不打印，WARN、ERROR、FATAL被过滤，只剩下TRACE、DEBUG、INFO-->
+                <!--第二条语句：INFO及以上的都打印，其他的不打印。TRACE、DEBUG被过滤，只剩下INFO被打印-->
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="ACCEPT"/>
+                <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+
+            <Policies>
+                <!--TimeBasedTriggeringPolicy配置需要和filePattern结合使用。-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i interval指定1，则标识每1分钟生成一个文件-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd HH}-%i interval指定1，则标识每1小时生成一个文件-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd}-%i interval指定1，则标识每1天生成一个文件-->
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <!--指定当文件体积大于指定的size值时，触发rolling，生成新文件-->
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+
+            <!--指定最多保存的文件个数 这里指定的是30-->
+            <DefaultRolloverStrategy max="30"/>
+        </RollingRandomAccessFile>
+
+        <!--name：标识名，在Loggers中配置时需要用到-->
+        <!--fileName：当前日志文件的目录和名称-->
+        <!--filePattern：指定发生Rolling（滚动生成新的日志文件）时，文件的转移和重命名规则-->
+        <RollingRandomAccessFile name="ErrorFile"
+                                 fileName="${LOCAL_LOG_DIR}/${ERROR_NAME}.log"
+                                 filePattern="${LOCAL_LOG_DIR}/$${date:yyyy-MM}/${ERROR_NAME}-%d{yyyy-MM-dd}-%i.log">
+
+            <PatternLayout>
+                <!--文件输出格式-->
+                <Pattern>${BASE_PATTERN}</Pattern>
+                <charset>UTF-8</charset>
+            </PatternLayout>
+
+            <!--filter 过滤规则-->
+            <Filters>
+                <!--level：日志级别 onMatch：符合日志级别的处理情况 onMismatch：不符合日志级别的处理情况-->
+                <!--ACCEPT：接受打印 DENY：不接受打印-->
+                <!--第一条语句：ERROR及以上的级别打印，TRACE、DEBUG、INFO、WARN被过滤，只剩下ERROR、FATAL-->
+                <!--第二条语句：FATAL及以上的都不打印，其他的打印。FATAL被过滤，只剩下ERROR被打印-->
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
+
+            <Policies>
+                <!--TimeBasedTriggeringPolicy配置需要和filePattern结合使用。-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i interval指定1，则标识每1分钟生成一个文件-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd HH}-%i interval指定1，则标识每1小时生成一个文件-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd}-%i interval指定1，则标识每1天生成一个文件-->
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <!--指定当文件体积大于指定的size值时，触发rolling，生成新文件-->
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+
+            <!--指定最多保存的文件个数 这里指定的是30-->
+            <DefaultRolloverStrategy max="30"/>
+        </RollingRandomAccessFile>
+
+
+        <!--name：标识名，在Loggers中配置时需要用到-->
+        <!--fileName：当前日志文件的目录和名称-->
+        <!--filePattern：指定发生Rolling（滚动生成新的日志文件）时，文件的转移和重命名规则-->
+        <RollingRandomAccessFile name="ServerErrorFile"
+                                 fileName="${SERVER_LOG_DIR}/${ERROR_NAME}.log"
+                                 filePattern="${SERVER_LOG_DIR}/$${date:yyyy-MM}/${ERROR_NAME}-%d{yyyy-MM-dd}-%i.log">
+
+            <PatternLayout>
+                <!--文件输出格式-->
+                <Pattern>${BASE_PATTERN}</Pattern>
+                <charset>UTF-8</charset>
+            </PatternLayout>
+
+            <!--filter 过滤规则-->
+            <Filters>
+                <!--level：日志级别 onMatch：符合日志级别的处理情况 onMismatch：不符合日志级别的处理情况-->
+                <!--ACCEPT：接受打印 DENY：不接受打印-->
+                <!--第一条语句：ERROR及以上的级别打印，TRACE、DEBUG、INFO、WARN被过滤，只剩下ERROR、FATAL-->
+                <!--第二条语句：FATAL及以上的都不打印，其他的打印。FATAL被过滤，只剩下ERROR被打印-->
+                <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+                <ThresholdFilter level="FATAL" onMatch="DENY" onMismatch="ACCEPT"/>
+            </Filters>
+
+            <Policies>
+                <!--TimeBasedTriggeringPolicy配置需要和filePattern结合使用。-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i interval指定1，则标识每1分钟生成一个文件-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd HH}-%i interval指定1，则标识每1小时生成一个文件-->
+                <!--${FILE_NAME}-%d{yyyy-MM-dd}-%i interval指定1，则标识每1天生成一个文件-->
+                <TimeBasedTriggeringPolicy interval="1"/>
+                <!--指定当文件体积大于指定的size值时，触发rolling，生成新文件-->
+                <SizeBasedTriggeringPolicy size="1 MB"/>
+            </Policies>
+
+            <!--指定最多保存的文件个数 这里指定的是30-->
+            <DefaultRolloverStrategy max="30"/>
+        </RollingRandomAccessFile>
+
+        <!--异步写日志-->
+        <!--<Async name="MyAsync">-->
+        <!--<AppenderRef ref="ServerErrorFile"/>-->
+        <!--</Async>-->
+
+
+    </appenders>
+
+
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+
+        <Logger name="com.myp.controllers" level="Error" additivity="false">
+            <AppenderRef ref="ServerErrorFile"/>
+            <AppenderRef ref="ErrorFile"/>
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <!--建立一个默认的root的logger-->
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="InfoFile"/>
+            <AppenderRef ref="ErrorFile"/>
+
+        </Root>
+    </loggers>
+</configuration>
